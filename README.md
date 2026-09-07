@@ -170,3 +170,55 @@ The dashboard includes visual reporting for:
 This provides a simple operational view of how incoming communication is being processed and how resulting work is distributed across the team.
 
 ![AI Operations Assistant Dashboard](images/ai-operations-dashboard.png)
+
+## Technical Challenges & Design Decisions
+
+### Preventing Duplicate Email Processing
+
+Incoming emails are identified using the Gmail Message ID. Before a message enters the processing workflow, the system checks whether that Message ID already exists in the email database.
+
+This prevents the same email from being processed multiple times if the automation runs repeatedly and helps ensure that duplicate email, customer, or task records are not created.
+
+### Converting AI Output into Structured Data
+
+Google Gemini is used to interpret the unstructured content of incoming emails. However, downstream automation requires predictable data rather than natural-language responses.
+
+The workflow therefore instructs Gemini to return structured information, which is parsed as JSON and mapped to specific fields including:
+
+- Category
+- Summary
+- Priority
+- Suggested reply
+- Task required
+
+Separating AI interpretation from the subsequent workflow logic allows the automation to use the AI output in a consistent and structured way.
+
+### Separating AI Decisions from Deterministic Workflow Logic
+
+AI is used where interpretation is required, such as understanding an email, summarising its content, determining its priority, and identifying whether follow-up action is needed.
+
+Once that information has been converted into structured data, Make.com handles the deterministic business logic such as generating IDs, creating records, routing tasks, assigning employees, and updating workload counts.
+
+This keeps AI focused on interpreting unstructured information while predictable business rules remain controlled by the automation workflow.
+
+### Workload-Based Task Assignment
+
+Rather than assigning every new task to a fixed employee, the workflow searches the employee database for available employees and evaluates their current task count.
+
+Employees are sorted by workload and the task is assigned to the available employee with the lowest current workload.
+
+This creates a simple dynamic assignment mechanism and helps distribute incoming work more evenly across the team.
+
+### Keeping Employee Workload Synchronised
+
+Employee workload is stored as operational data and is updated throughout the task lifecycle.
+
+When a task is assigned, the employee's workload count is increased. When a task is completed or cancelled, a separate workflow identifies the assigned employee and reduces their workload count.
+
+Maintaining this state allows future task assignments to use current workload information rather than relying on a static assignment rule.
+
+### Designing for Traceability
+
+Important workflow events are written to an activity log, providing a record of actions performed by the automation.
+
+Combined with unique Email IDs, Customer IDs and Task IDs, this makes it easier to trace how an incoming email moved through the system and investigate unexpected workflow behaviour.
