@@ -222,3 +222,49 @@ Maintaining this state allows future task assignments to use current workload in
 Important workflow events are written to an activity log, providing a record of actions performed by the automation.
 
 Combined with unique Email IDs, Customer IDs and Task IDs, this makes it easier to trace how an incoming email moved through the system and investigate unexpected workflow behaviour.
+
+## Technologies Used
+
+| Technology | Purpose |
+|---|---|
+| **Make.com** | Workflow orchestration, routing, business logic, and application integration |
+| **Google Gemini** | AI-assisted email analysis, classification, summarisation, prioritisation, and suggested reply generation |
+| **Gmail** | Source of incoming customer emails |
+| **Google Sheets** | Operational data storage, task management, employee workload tracking, activity logging, and reporting |
+| **JSON** | Structured format used to convert AI-generated output into data that can be used by downstream automation |
+
+## What I Learned
+
+Building this project gave me practical experience in:
+
+- Designing an end-to-end workflow around a real business operations problem
+- Using an LLM to transform unstructured email content into structured operational data
+- Parsing structured JSON responses and mapping AI-generated information into downstream workflows
+- Combining AI interpretation with deterministic business rules
+- Designing workflows to safely handle repeated execution and prevent duplicate processing
+- Building conditional task creation and routing logic
+- Implementing workload-based task assignment
+- Maintaining state across separate automation scenarios
+- Designing workflows with traceability and operational reporting in mind
+- Structuring connected datasets using unique identifiers and relationships between customers, emails, tasks, and employees
+
+## Future Improvements
+
+If developing the system further, I would consider:
+
+- Replacing Google Sheets with a relational database for improved scalability and data integrity
+- Using webhooks or event-driven integrations where appropriate to reduce polling
+- Adding more comprehensive error handling, retry logic, and failure notifications
+- Introducing human review or confidence thresholds for higher-risk AI classifications
+- Expanding task assignment logic to consider employee skills, availability, priority, and workload
+- Adding automated customer response workflows with approval controls
+- Introducing service-level targets and escalation rules for urgent or overdue tasks
+- Creating a dedicated user interface for employees rather than relying directly on spreadsheet data
+- Adding more detailed monitoring and audit capabilities
+- Exploring API-based integrations with CRM, helpdesk, or project management platforms
+
+## Demo Workbook
+
+A demonstration workbook containing fictional sample data is included in this repository to show the underlying data structure, task management model, employee workload tracking, and reporting used by the automation.
+
+> **Note:** All records in the workbook are fictional demo data created to demonstrate the system. The workbook does not contain real customer or employee information. Some demonstration records were manually populated to provide sufficient data for dashboard reporting.
