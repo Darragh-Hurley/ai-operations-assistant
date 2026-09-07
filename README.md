@@ -60,11 +60,7 @@ The system is built around three connected automation workflows that manage the 
 - **Google Gemini** — AI-powered email analysis and structured information extraction
 - **Google Sheets** — Operational data store for customers, emails, tasks, employees, and activity records
 
-### High-Level Architecture
-
-The system follows the general flow:
-
-**Gmail → Email Intake → Customer & Email Records → Gemini AI Analysis → Structured JSON → Task Decision → Task Creation → Workload-Based Employee Assignment → Task Completion → Reporting**
+![AI Operations Assistant System Architecture](images/ai-operations-system-architecture.png)
 
 ## Automation Workflows
 
