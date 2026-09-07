@@ -49,4 +49,77 @@ The automated workflow:
 - Maintains an activity log for workflow traceability
 - Provides dashboard reporting across email processing, task status and employee workload
 
+## System Architecture
 
+The system is built around three connected automation workflows that manage the lifecycle of an incoming customer email from initial capture through AI analysis, task assignment, and completion.
+
+### Core Technologies
+
+- **Make.com** — Workflow orchestration and business logic
+- **Gmail** — Incoming customer email source
+- **Google Gemini** — AI-powered email analysis and structured information extraction
+- **Google Sheets** — Operational data store for customers, emails, tasks, employees, and activity records
+
+### High-Level Architecture
+
+The system follows the general flow:
+
+**Gmail → Email Intake → Customer & Email Records → Gemini AI Analysis → Structured JSON → Task Decision → Task Creation → Workload-Based Employee Assignment → Task Completion → Reporting**
+
+## Automation Workflows
+
+The system is divided into three automation scenarios, with each workflow responsible for a specific stage of the email and task lifecycle.
+
+### 1. Gmail Intake & Customer Identification
+
+The first workflow captures incoming emails and creates the records required for further processing.
+
+When a new email is received, the workflow:
+
+1. Captures the incoming message from Gmail
+2. Checks the Gmail Message ID to prevent the same email from being processed more than once
+3. Generates a unique Email ID
+4. Searches the customer database for the sender
+5. Creates a new customer record when no matching customer exists
+6. Links the email to either the new or existing customer
+7. Stores the email and customer relationship in Google Sheets
+8. Records workflow activity for traceability
+
+![Gmail Intake Workflow](images/01-gmail-intake.png)
+
+### 2. AI Email Analysis, Task Creation & Assignment
+
+The second workflow processes captured emails using Google Gemini and determines whether further action is required.
+
+The workflow:
+
+1. Identifies emails requiring AI processing
+2. Sends the email content to Google Gemini for analysis
+3. Parses the AI response into structured JSON
+4. Updates the email record with the generated summary, category, priority, suggested reply, and task requirement
+5. Records the processing activity in the activity log
+6. Checks whether the email requires an internal task
+7. Generates a unique Task ID when action is required
+8. Creates the task in the task database
+9. Searches for available employees and sorts them by current workload
+10. Assigns the task to the employee with the lowest workload
+11. Updates the employee's current task count
+12. Records the assignment in the activity log
+
+![AI Email Processing and Task Assignment](images/02-ai-email-processing-and-task-assignment.png)
+
+### 3. Task Completion & Workload Update
+
+The final workflow manages completed and cancelled tasks and keeps employee workload information accurate.
+
+When a task reaches a completed or cancelled state, the workflow:
+
+1. Identifies the relevant task
+2. Finds the employee assigned to the task
+3. Reduces the employee's current workload count
+4. Records the task completion date
+5. Adds the workflow event to the activity log
+
+This ensures that employee workload data remains current and can be used when assigning future tasks.
+
+![Task Completion Workflow](images/03-task-completion.png)
