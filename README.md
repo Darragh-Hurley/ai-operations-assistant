@@ -36,7 +36,7 @@ The automated workflow:
 - Captures new incoming emails from Gmail
 - Prevents duplicate processing using the Gmail Message ID
 - Identifies existing customers or creates new customer records
-- Stores incoming emails in a central operational database
+- Stores incoming emails in a central operational data store
 - Sends email content to Google Gemini for analysis
 - Converts the AI response into structured JSON data
 - Categorises and summarises each email
@@ -171,6 +171,14 @@ This provides a simple operational view of how incoming communication is being p
 
 ![AI Operations Assistant Dashboard](images/ai-operations-dashboard.png)
 
+## Demo Workbook
+
+A demonstration workbook containing fictional sample data is included in this repository to show the underlying data structure, task management model, employee workload tracking, and reporting used by the automation.
+
+[View the demo workbook](demo/AI-Operations-Assistant-Demo.xlsx)
+
+> **Note:** All records in the workbook are fictional demo data created to demonstrate the system. The workbook does not contain real customer or employee information. Some demonstration records were manually populated to provide sufficient data for dashboard reporting.
+
 ## Technical Challenges & Design Decisions
 
 ### Preventing Duplicate Email Processing
@@ -262,9 +270,3 @@ If developing the system further, I would consider:
 - Creating a dedicated user interface for employees rather than relying directly on spreadsheet data
 - Adding more detailed monitoring and audit capabilities
 - Exploring API-based integrations with CRM, helpdesk, or project management platforms
-
-## Demo Workbook
-
-A demonstration workbook containing fictional sample data is included in this repository to show the underlying data structure, task management model, employee workload tracking, and reporting used by the automation.
-
-> **Note:** All records in the workbook are fictional demo data created to demonstrate the system. The workbook does not contain real customer or employee information. Some demonstration records were manually populated to provide sufficient data for dashboard reporting.
